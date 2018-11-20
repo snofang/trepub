@@ -1,4 +1,4 @@
-package org.snofang.repub.trepub.web.view;
+package snofang.repub.trepub.web.view;
 
 
 public class Item {

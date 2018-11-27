@@ -1,13 +1,13 @@
 package snofang.repub.trepub.web.view;
 
 
-public class Item {
+public class ItemView {
 	public String id;
 	public String content;
 	public String getId() {
 		return id;
 	}
-	public Item(String id, String content) {
+	public ItemView(String id, String content) {
 		super();
 		this.id = id;
 		this.content = content;

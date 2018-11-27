@@ -12,7 +12,7 @@ import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import snofang.repub.trepub.web.view.Item;
+import snofang.repub.trepub.web.view.ItemView;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
@@ -27,7 +27,7 @@ public class ItemsControllerTests {
 	@Test
 	public void TestItemsGet() throws Exception{
 		String itemId = "7777";
-		ResponseEntity<Item> i = restTemplate.getForEntity("http://localhost:" + port + "/items/get?itemId=" + itemId, Item.class);
+		ResponseEntity<ItemView> i = restTemplate.getForEntity("http://localhost:" + port + "/items/get?itemId=" + itemId, ItemView.class);
 		assertThat(i.getBody().id.equals(itemId));
 		
 	}

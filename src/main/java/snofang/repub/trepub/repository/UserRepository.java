@@ -7,7 +7,6 @@ import org.springframework.transaction.annotation.Transactional;
 import snofang.repub.trepub.entity.UserEntity;
 
 
-@Repository
 @Transactional
 public interface UserRepository extends JpaRepository<UserEntity, Long> {
 

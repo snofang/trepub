@@ -16,11 +16,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import snofang.repub.trepub.web.view.PrincipalView;
 
 
-/**
- * 
- * @author Kristijan Georgiev
- *
- */
 @Configuration
 @EnableWebSecurity
 public class WebMvcConfiguration implements WebMvcConfigurer {

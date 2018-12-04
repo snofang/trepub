@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.env.Environment;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -61,6 +62,9 @@ public class OAuth2Configuration extends AuthorizationServerConfigurerAdapter {
 	@Autowired
 	@Qualifier("authenticationManagerBean")
 	private AuthenticationManager authenticationManager;
+	
+	@Autowired
+	private Environment env;
 
 	@Bean
 	public OAuth2RequestFactory requestFactory() {
@@ -101,7 +105,7 @@ public class OAuth2Configuration extends AuthorizationServerConfigurerAdapter {
 	public JwtAccessTokenConverter jwtAccessTokenConverter() {
 		JwtAccessTokenConverter converter = new CustomTokenEnhancer();
 		converter.setKeyPair(
-				new KeyStoreKeyFactory(new ClassPathResource("jwt.jks"), "password".toCharArray()).getKeyPair("jwt"));
+				new KeyStoreKeyFactory(new ClassPathResource("jwt.jks"), env.getProperty("spring.datasource.password").toCharArray()).getKeyPair("jwt"));
 		return converter;
 	}
 

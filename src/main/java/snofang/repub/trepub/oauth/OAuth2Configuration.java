@@ -64,6 +64,9 @@ public class OAuth2Configuration extends AuthorizationServerConfigurerAdapter {
 	private AuthenticationManager authenticationManager;
 	
 	@Autowired
+	private CustomAccessTokenConverter accessTokenConverter;
+	
+	@Autowired
 	private Environment env;
 
 	@Bean
@@ -104,50 +107,11 @@ public class OAuth2Configuration extends AuthorizationServerConfigurerAdapter {
 	@Bean
 	public JwtAccessTokenConverter jwtAccessTokenConverter() {
 		JwtAccessTokenConverter converter = new CustomTokenEnhancer();
+		converter.setAccessTokenConverter(accessTokenConverter);
 		converter.setKeyPair(
 				new KeyStoreKeyFactory(new ClassPathResource("jwt.jks"), env.getProperty("spring.datasource.password").toCharArray()).getKeyPair("jwt"));
 		return converter;
 	}
 
-	/*
-	 * Add custom user principal information to the JWT token
-	 */
-	class CustomTokenEnhancer extends JwtAccessTokenConverter {
-		@Override
-		public OAuth2AccessToken enhance(OAuth2AccessToken accessToken, OAuth2Authentication authentication) {
-			UserEntity user = (UserEntity) authentication.getPrincipal();
-
-			Map<String, Object> info = new LinkedHashMap<String, Object>(accessToken.getAdditionalInformation());
-
-			info.put("email", user.getEmail());
-
-			DefaultOAuth2AccessToken customAccessToken = new DefaultOAuth2AccessToken(accessToken);
-			customAccessToken.setAdditionalInformation(info);
-
-			return super.enhance(customAccessToken, authentication);
-		}
-	}
-
-	class CustomOauth2RequestFactory extends DefaultOAuth2RequestFactory {
-		@Autowired
-		private TokenStore tokenStore;
-
-		public CustomOauth2RequestFactory(ClientDetailsService clientDetailsService) {
-			super(clientDetailsService);
-		}
-
-		@Override
-		public TokenRequest createTokenRequest(Map<String, String> requestParameters,
-				ClientDetails authenticatedClient) {
-			if (requestParameters.get("grant_type").equals("refresh_token")) {
-				OAuth2Authentication authentication = tokenStore.readAuthenticationForRefreshToken(
-						tokenStore.readRefreshToken(requestParameters.get("refresh_token")));
-				SecurityContextHolder.getContext()
-						.setAuthentication(new UsernamePasswordAuthenticationToken(authentication.getName(), null,
-								userDetailsService.loadUserByUsername(authentication.getName()).getAuthorities()));
-			}
-			return super.createTokenRequest(requestParameters, authenticatedClient);
-		}
-	}
 
 }

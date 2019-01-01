@@ -1,6 +1,8 @@
 package snofang.repub.trepub.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.ExampleMatcher;
+import org.springframework.data.domain.Page;
 import org.springframework.security.authentication.AccountStatusUserDetailsChecker;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -12,7 +14,7 @@ import snofang.repub.trepub.repository.UserRepository;
 
 
 @Service(value = "userDetailsService")
-public class CustomUserDetailsService implements UserDetailsService {
+public class UserService implements UserDetailsService {
 
 	@Autowired
 	private UserRepository userRepository;
@@ -32,6 +34,12 @@ public class CustomUserDetailsService implements UserDetailsService {
 		new AccountStatusUserDetailsChecker().check(user);
 
 		return user;
+	}
+	
+	public Page<UserEntity> getUsers(UserEntity userExample){
+		ExampleMatcher matcher = ExampleMatcher.matching()
+				.
+		this.userRepository.findAll(example, pageable)
 	}
 
 }

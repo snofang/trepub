@@ -1,14 +1,17 @@
 package snofang.repub.trepub.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.authentication.AccountStatusUserDetailsChecker;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 
+import com.querydsl.core.types.dsl.BooleanExpression;
+
+import snofang.repub.trepub.entity.QUserEntity;
 import snofang.repub.trepub.entity.UserEntity;
 import snofang.repub.trepub.repository.UserRepository;
 
@@ -36,10 +39,16 @@ public class UserService implements UserDetailsService {
 		return user;
 	}
 	
-	public Page<UserEntity> getUsers(UserEntity userExample){
-		ExampleMatcher matcher = ExampleMatcher.matching()
-				.
-		this.userRepository.findAll(example, pageable)
+	public Page<UserEntity> getUsers(String userName, Pageable p){
+		QUserEntity que = QUserEntity.userEntity;
+		BooleanExpression e1 = que.username.like(userName);
+		return this.userRepository.findAll(e1, p);
 	}
+	
+	public UserEntity CreateUserEntity(UserEntity userEntity) {
+		return this.userRepository.save(userEntity);
+	}
+	
+	
 
 }

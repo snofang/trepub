@@ -1,13 +1,13 @@
-package snofang.repub.trepub.web.view;
+package snofang.repub.trepub.web.dto;
 
 
-public class ItemView {
+public class ItemDTO {
 	public String id;
 	public String content;
 	public String getId() {
 		return id;
 	}
-	public ItemView(String id, String content) {
+	public ItemDTO(String id, String content) {
 		super();
 		this.id = id;
 		this.content = content;

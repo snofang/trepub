@@ -1,4 +1,4 @@
-package snofang.repub.trepub.web.view;
+package snofang.repub.trepub.web.dto;
 
 import java.io.Serializable;
 
@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 @Component
 @NoArgsConstructor
 @AllArgsConstructor
-public class PrincipalView implements Serializable {
+public class PrincipalDTO implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 

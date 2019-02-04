@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import snofang.repub.trepub.entity.UserEntity;
 import snofang.repub.trepub.service.UserService;
+import snofang.repub.trepub.service.UtilService;
+import snofang.repub.trepub.web.dto.UserDTO;
 
 @RestController
 @RequestMapping("/api/users")
@@ -20,14 +22,17 @@ public class UsersController {
 	@Autowired
 	private UserService userService;
 	
+	@Autowired
+	private UtilService utilService;
+	
 	@PostMapping("add")
-	public UserEntity addUser(@RequestBody UserEntity userEntity) {
-		return this.userService.createUser(userEntity);
+	public UserEntity addUser(@RequestBody UserDTO user) {
+		return this.userService.createUser(this.utilService.map(user, UserEntity.class));
 	}
 	
 	@GetMapping("list")
-	public Page<UserEntity> geUsers(@RequestParam String userName, @RequestParam Pageable page){
-		return this.userService.getUsers(userName, page);
+	public Page<UserDTO> geUsers(@RequestParam String username, @RequestParam Pageable page){
+		return this.userService.getUsers(username, page);
 	}
 }
 							

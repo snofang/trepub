@@ -9,7 +9,7 @@ import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import snofang.repub.trepub.web.view.ItemView;
+import snofang.repub.trepub.web.dto.ItemDTO;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
@@ -18,7 +18,7 @@ public class ItemsControllerTests extends BaseControllerTest{
 	@Test
 	public void TestItemsGet() throws Exception{
 		String itemId = "7777";
-		ResponseEntity<ItemView> i = restTemplate.getForEntity("/items/get?itemId=" + itemId, ItemView.class);
+		ResponseEntity<ItemDTO> i = restTemplate.getForEntity("/items/get?itemId=" + itemId, ItemDTO.class);
 		assertThat(i.getBody().id.equals(itemId));
 		
 	}

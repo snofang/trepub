@@ -7,7 +7,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import snofang.repub.trepub.web.view.PrincipalView;
+import snofang.repub.trepub.web.dto.PrincipalDTO;
 
 
 @RestController
@@ -16,14 +16,14 @@ public class ResourceController {
 	@GetMapping("/context")
 	@PreAuthorize("hasAuthority('role_admin')")
 	public String context() {
-		PrincipalView principal = (PrincipalView) SecurityContextHolder.getContext().getAuthentication()
+		PrincipalDTO principal = (PrincipalDTO) SecurityContextHolder.getContext().getAuthentication()
 				.getPrincipal();
 		return principal.getUsername() + " " + principal.getEmail();
 	}
 
 	@GetMapping("/secured")
 	@PreAuthorize("hasAuthority('role_admin')")
-	public String secured(PrincipalView principal) {
+	public String secured(PrincipalDTO principal) {
 		return principal.getUsername() + " " + principal.getEmail();
 	}
 

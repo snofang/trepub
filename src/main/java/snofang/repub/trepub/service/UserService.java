@@ -1,5 +1,7 @@
 package snofang.repub.trepub.service;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -15,7 +17,7 @@ import snofang.repub.trepub.entity.QUserEntity;
 import snofang.repub.trepub.entity.UserEntity;
 import snofang.repub.trepub.repository.UserRepository;
 
-
+@Transactional
 @Service(value = "userDetailsService")
 public class UserService implements UserDetailsService {
 

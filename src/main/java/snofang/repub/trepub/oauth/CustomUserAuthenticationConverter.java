@@ -11,7 +11,7 @@ import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.oauth2.provider.token.UserAuthenticationConverter;
 import org.springframework.util.StringUtils;
 
-import snofang.repub.trepub.web.view.PrincipalView;
+import snofang.repub.trepub.web.dto.PrincipalDTO;
 
 
 public class CustomUserAuthenticationConverter implements UserAuthenticationConverter {
@@ -40,7 +40,7 @@ public class CustomUserAuthenticationConverter implements UserAuthenticationConv
 	public Authentication extractAuthentication(Map<String, ?> map) {
 		if (map.containsKey(USERNAME))
 			return new UsernamePasswordAuthenticationToken(
-					new PrincipalView(map.get(USERNAME).toString(), map.get(EMAIL).toString()), "N/A",
+					new PrincipalDTO(map.get(USERNAME).toString(), map.get(EMAIL).toString()), "N/A",
 					getAuthorities(map));
 		return null;
 	}

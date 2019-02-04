@@ -14,7 +14,7 @@ import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-import snofang.repub.trepub.web.view.PrincipalView;
+import snofang.repub.trepub.web.dto.PrincipalDTO;
 
 
 @Configuration
@@ -32,14 +32,14 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
 		return new HandlerMethodArgumentResolver() {
 			@Override
 			public boolean supportsParameter(MethodParameter parameter) {
-				return parameter.getParameterType().equals(PrincipalView.class);
+				return parameter.getParameterType().equals(PrincipalDTO.class);
 			}
 
 			@Override
 			public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer,
 					NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
 				try {
-					return (PrincipalView) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+					return (PrincipalDTO) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 				} catch (Exception e) {
 					return null;
 				}

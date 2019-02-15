@@ -1,5 +1,6 @@
 package snofang.repub.trepub.web.controller;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -12,8 +13,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import snofang.repub.trepub.entity.UserEntity;
 import snofang.repub.trepub.service.UserService;
-import snofang.repub.trepub.service.UtilService;
-import snofang.repub.trepub.web.dto.UserDTO;
+import snofang.repub.trepub.web.dto.UserEditDTO;
+import snofang.repub.trepub.web.dto.UserViewDTO;
 
 @RestController
 @RequestMapping("/api/users")
@@ -23,16 +24,18 @@ public class UsersController {
 	private UserService userService;
 	
 	@Autowired
-	private UtilService utilService;
+	private ModelMapper modelMapper;
 	
 	@PostMapping("add")
-	public UserEntity addUser(@RequestBody UserDTO user) {
-		return this.userService.createUser(this.utilService.map(user, UserEntity.class));
+	public UserViewDTO addUser(@RequestBody UserEditDTO user) {
+		UserEntity ue = this.modelMapper.map(user, UserEntity.class);
+		ue = this.userService.createUser(ue);
+		return this.modelMapper.map(ue, UserViewDTO.class);
 	}
 	
 	@GetMapping("list")
-	public Page<UserDTO> geUsers(@RequestParam String username, @RequestParam Pageable page){
-		return this.userService.getUsers(username, page);
+	public Page<UserViewDTO> geUsers(@RequestParam String username, @RequestParam Pageable page){
+		return this.userService.getUsers(username, page).map(ue -> this.modelMapper.map(ue, UserViewDTO.class));
 	}
 }
 							

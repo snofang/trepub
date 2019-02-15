@@ -9,6 +9,7 @@ import org.springframework.security.authentication.AccountStatusUserDetailsCheck
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.querydsl.core.types.dsl.BooleanExpression;
@@ -23,6 +24,9 @@ public class UserService implements UserDetailsService {
 
 	@Autowired
 	private UserRepository userRepository;
+	
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 
 	@Override
 	public UserDetails loadUserByUsername(String input) {
@@ -48,9 +52,9 @@ public class UserService implements UserDetailsService {
 	}
 	
 	public UserEntity createUser(UserEntity userEntity) {
+		userEntity.setPassword(this.passwordEncoder.encode(userEntity.getPassword()));
 		return this.userRepository.save(userEntity);
 	}
-	
 	
 
 }

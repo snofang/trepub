@@ -6,11 +6,12 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
-import org.springframework.data.domain.Page;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import snofang.repub.trepub.entity.UserEntity;
 import snofang.repub.trepub.web.dto.UserEditDTO;
 import snofang.repub.trepub.web.dto.UserViewDTO;
 
@@ -29,9 +30,10 @@ public class UsersControllerTests extends BaseControllerTest {
 				restTemplate.postForEntity("/api/users/add", userEditDTO, UserViewDTO.class);
 		assertThat(r.getBody().getId() > 0);
 		
-		Page<UserViewDTO> t;
 		//user listing
-		restTemplate.getForEntity("/api/users", Page<UserViewDTO>.getClass() )
+		ResponseEntity<PageImpl<UserViewDTO>> l = 
+				restTemplate.exchange("/api/users?userName="+userEditDTO.getPassword(),HttpMethod.GET, null, new ParameterizedTypeReference<PageImpl<UserViewDTO>>() {});
+		assertThat(l.getBody().getContent().get(0).getId().equals(r.getBody().getId()));
 		
 	}
 

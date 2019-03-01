@@ -1,4 +1,4 @@
-package snofang.repub.trepub.oauth;
+package snofang.repub.trepub.web.config;
 
 import java.util.Arrays;
 import java.util.Collection;

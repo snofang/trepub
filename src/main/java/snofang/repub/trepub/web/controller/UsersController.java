@@ -34,7 +34,7 @@ public class UsersController {
 	}
 	
 	@GetMapping("list")
-	public Page<UserViewDTO> geUsers(@RequestParam String username, @RequestParam Pageable page){
+	public Page<UserViewDTO> geUsers(@RequestParam String username, Pageable page){
 		return this.userService.getUsers(username, page).map(ue -> this.modelMapper.map(ue, UserViewDTO.class));
 	}
 }
